@@ -1,0 +1,24 @@
+  server
+    {
+        listen        80;
+        server_name   www.gepro.com.br;
+        access_log    /var/log/nginx/gepro.access.log;
+        error_log     /var/log/nginx/gepro.error.log;
+        location / {
+            root  /opt/webapp/gepro/;
+            index index.html index.htm;
+        }
+    }
+
+
+    server
+    {
+        listen        80;
+        server_name   static.gepro.net.br;
+        access_log    /var/log/nginx/static.access.log;
+        error_log     /var/log/nginx/static.error.log;
+        location / {
+            root  /opt/webapp/static/;
+            autoindex on;
+        }
+    }
