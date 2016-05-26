@@ -1,0 +1,6 @@
+#https://www.frankmitchell.org/2013/05/https-elb/
+
+
+ELB Protocol	ELB Port	Server Protocol	Server Port
+HTTPS	        443	        HTTP	        443
+HTTP	       80	        HTTP	        80
