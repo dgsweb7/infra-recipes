@@ -1,0 +1,57 @@
+#Source: http://linoxide.com/storage/install-redis-server-centos-7/
+
+
+#Install GNU Compiler Collection and Make with yum if it is not already installed
+yum install gcc make
+
+#Download the tarball from redis download page.
+curl http://download.redis.io/releases/redis-3.0.7.tar.gz --output redis-3.0.7.tar.gz
+
+#Extract the tarball contents
+mv redis-3.0.7.tar.gz /opt
+cd \opt
+tar zxvf redis-3.0.7.tar.gz
+rm redis-3.0.7.tar.gz
+
+#Use Make to build the source files
+cd redis-3.0.7
+make
+cd src
+cp redis-server redis-cli /usr/local/bin
+cp redis-sentinel redis-benchmark redis-check-aof redis-check-dump /usr/local/bin
+
+#Make Redis config directory
+mkdir /etc/redis
+mkdir -p /var/lib/redis
+
+#System parameters
+sysctl -w vm.overcommit_memory=1
+sysctl -w net.core.somaxconn=512
+
+#Edit redis.conf
+vi /opt/redis-3.0.7/redis.conf
+- daemonize yes
+- pidfile /var/run/redis.pid
+- port 6379
+- loglevel notice
+- logfile /var/log/redis.log
+- dir /var/lib/redis
+- unixsocket /tmp/redis.sock
+- unixsocketperm 700
+- requirepass <senha>
+* Snapshots
+- save 900 1
+- save 300 10
+- save 60 10000
+
+#Starting at boot
+cp /opt/redis-3.0.7/utils/redis_init_script /etc/init.d/redis
+
+#Set permission
+sudo chmod +x /etc/init.d/redis
+
+#Start automatic on startup
+chkconfig redis on
+
+#Docker
+yum install initscripts 

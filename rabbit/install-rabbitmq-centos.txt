@@ -1,0 +1,25 @@
+sudo yum -y update
+sudo yum install epel-release -y 
+sudo yum install initscripts -y
+
+#Erlang
+wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+sudo rpm -Uvh remi-release-6*.rpm epel-release-6*.rpm
+yum install -y erlang
+
+#Rabbit
+wget http://www.rabbitmq.com/releases/rabbitmq-server/v3.6.1/rabbitmq-server-3.6.1-1.noarch.rpm
+rpm --import http://www.rabbitmq.com/rabbitmq-signing-key-public.asc
+yum install rabbitmq-server-3.6.1-1.noarch.rpm
+
+
+#Configure
+sudo rabbitmq-plugins enable rabbitmq_management
+sudo rabbitmqctl add_user admin admin
+sudo rabbitmqctl set_user_tags admin administrator
+sudo rabbitmqctl set_permissions -p / admin ".*" ".*" ".*"
+
+/etc/init.d/rabbitmq-server start
+
+
