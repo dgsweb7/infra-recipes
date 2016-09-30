@@ -1,7 +1,7 @@
 
 # Install from EPEL
 sudo yum --enablerepo=epel -y install rabbitmq-server
-systemctl start rabbitmq-server 
+sudo /sbin/chkconfig rabbitmq-server on
 systemctl enable rabbitmq-server
 
 #Configure
