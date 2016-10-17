@@ -18,9 +18,14 @@ yum -y install mongodb-org mongodb-org-server
 #Configura IP
 vim /etc/mongod.conf
 comment bind_ip attribute
+uncomment auth=on
+
 
 #Create User
 db.createUser({ user: "username", pwd: "password", roles: [ "root" ]});
 
 #Make the service start automatically at every reboot.
 /sbin/chkconfig mongod on
+
+#Connect
+mongo --port 27017 -u "user" -p "password" --authenticationDatabase "database"
